@@ -7,5 +7,11 @@
 	},
 	"session": {
 		"secret": "culinary enterprise"
+	},
+	"smtp": {
+		"host": "smtp.upcmail.cz",
+		"port": 25,
+		"ssl": false,
+		"from": "jjkon@seznam.cz"
 	}
 }

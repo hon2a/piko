@@ -3,6 +3,7 @@ var config = require('./config.json'),
 	resource = require('express-resource'),
 	fn = require('functions'),
 	database = require('database'),
+	smtp = require('smtp'),
 	User = require('User');
 
 var finisher = function (req, res, next) {
@@ -15,6 +16,11 @@ var finisher = function (req, res, next) {
 				res.send(HTTP.OK);
 			}
 		};
+		next();
+	},
+	baseUrlProvider = function (req, res, next) {
+		// FIXME: create real base URL from req.host and config
+		req.baseUrl = util.format('%s://localhost/piko/api', req.protocol);
 		next();
 	},
 	db = new database.Db({
@@ -31,7 +37,13 @@ app.use(express.session(config.session));
 
 app.use(express.static(__dirname + '/../app-client'));
 
-app.all('/api/*', finisher, db.feeder(), User.access);
+app.all('/api/*',
+	finisher,
+	baseUrlProvider,
+	db.feeder(),
+	smtp(config.smtp),
+	User.access
+);
 
 app.get('/api/account/activate', User.activate);
 app.get('/api/account/login', User.login);

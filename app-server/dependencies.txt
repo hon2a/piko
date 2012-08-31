@@ -2,5 +2,6 @@ express
 express-resource
 mysql@2.0.0-alpha3
 http-status
+emailjs
 
 If installing modules via NPM, NODE_PATH needs to point to its modules folder.
