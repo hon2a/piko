@@ -1,0 +1,11 @@
+{
+	"db": {
+		"host": "localhost",
+		"user": "root",
+		"password": "",
+		"database": "foo"
+	},
+	"session": {
+		"secret": "culinary enterprise"
+	}
+}
