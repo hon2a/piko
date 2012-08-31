@@ -48,6 +48,13 @@ DELETE	/entities/$ID			->  delete specific entity
 
 ---
 
+Root user credentials:
+
+username: root
+password: nPpQuuQUQ9v8HrZ3Qt49
+
+---
+
 Example:
 
 GET http://localhost/piko/api/account
