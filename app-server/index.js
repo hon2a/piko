@@ -15,6 +15,7 @@ var finisher = function (req, res, next) {
 				res.send(HTTP.OK);
 			}
 		};
+		next();
 	},
 	db = new database.Db({
 		factory: require('mysql'),
@@ -32,9 +33,10 @@ app.use(express.static(__dirname + '/../app-client'));
 
 app.all('/api/*', finisher, db.feeder(), User.access);
 
-app.get('/api/session/login', User.login);
-app.get('/api/session/logout', User.logout);
-app.get('/api/session', User.get);
+app.get('/api/account/activate', User.activate);
+app.get('/api/account/login', User.login);
+app.get('/api/account/logout', User.logout);
+app.get('/api/account', User.get);
 
 app.resource('api/usertypes', require('resources/usertypes'));
 app.resource('api/users', require('resources/users'));
