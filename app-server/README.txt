@@ -33,7 +33,8 @@ GET account/logout
 
 * Resources:
 
-users
+users						(+ allows adressing by usernames as well as IDs)
+users/applications	(+ supports pseudo-ID 'latest')
 usertypes
 
 Resources support some or all of the following actions:
@@ -45,6 +46,10 @@ GET		/entities/$ID			->  get specific entity
 GET		/entities/$ID/edit	->  edit specific entity
 PUT		/entities/$ID			->  -^
 DELETE	/entities/$ID			->  delete specific entity
+
+Resources can be nested (as denoted by the slash(es) in their name):
+
+GET		/parents/$PARENT_ID/entities/$ID		-> get specific entity
 
 ---
 
@@ -67,7 +72,11 @@ GET http://localhost/piko/api/account/login?username=guest&password=guest
 
 GET http://localhost/piko/api/account
 ->
-200: {"email":"","name":"Guest","username":"guest","can":{"manageUsertypes":false,"viewUsers":false,"createUser":false,"editUser":false,"deleteUser":false}}
+200: {"id":2,"username":"guest","name":"Guest","email":"","can":{"manageUsertypes":false,"viewUsers":false,"createUser":false,"editUser":false,"deleteUser":false}}
+
+GET http://localhost/piko/api/users/guest/applications/latest
+->
+404: Not Found
 
 GET http://localhost/piko/api/users/1
 ->
