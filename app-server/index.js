@@ -2,6 +2,7 @@ var config = require('./config.json'),
 	express = require('express'),
 	resource = require('express-resource'),
 	fn = require('functions'),
+	HTTP = require('http-status'),
 	database = require('database'),
 	smtp = require('smtp'),
 	User = require('User');
