@@ -52,7 +52,8 @@ app.get('/api/account/logout', User.logout);
 app.get('/api/account', User.get);
 
 app.resource('api/usertypes', require('resources/usertypes'));
-app.resource('api/users', require('resources/users'));
+var users = app.resource('api/users', require('resources/users'));
+users.add(app.resource('applications', require('resources/applications')));
 
 db.initialize(function (err) {
 	if (err) {
