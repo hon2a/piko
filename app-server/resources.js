@@ -4,6 +4,29 @@ var util = require('util'),
 	User = require('User'),
 	resource = require('resource');
 
+var dirBridge = function (api, resPath, fsPath, params, makeHandlers) {
+	var parent = null,
+		ret = null;
+	params.forEach(function (param) {
+		var child = api.resource(resPath, resource.create(new resource.DirectoryHandlers({
+			id: 'dirBridgeDummy',
+			path: fsPath
+		})));
+		resPath = ':' + param;
+		fsPath += '/' + resPath;
+		
+		if (parent) {
+			parent.add(child);
+		}
+		parent = child;
+		ret = ret || parent;
+	});
+	
+	parent.add(api.resource(resPath, makeHandlers(fsPath)));
+	
+	return ret;
+};
+
 var resources = module.exports = {
 	
 	account: function (api, config) {
@@ -102,16 +125,14 @@ var resources = module.exports = {
 			}
 		})));
 		
-		users.add(api.resource('solutions/:year?/:series?', resource.create(new resource.DirectoryIndexHandlers({
-			path: config.storage.path + 'solutions/:year/:series'
-		}), {
-			authenticator: restrictToOwner
-		})));
-		users.add(api.resource('solutions/:year/:series', resource.create(new resource.FileStorageHandlers({
-			id: 'solution',
-			path: config.storage.path + 'solutions/:year/:series'
-		}), {
-			authenticator: restrictToOwner
-		})));
+		users.add(dirBridge(api, 'solutions', config.storage.path + 'solutions/:user',
+				['year', 'series'], function (path) {
+			return resource.create(new resource.FileStorageHandlers({
+				id: 'solution',
+				path: path
+			}), {
+				authenticator: restrictToOwner
+			});			
+		}));
 	}
 };
