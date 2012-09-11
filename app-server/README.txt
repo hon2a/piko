@@ -5,6 +5,7 @@
 
 express
 express-resource
+express-namespace
 mysql@2.0.0-alpha3
 http-status
 emailjs

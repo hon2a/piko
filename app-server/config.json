@@ -13,5 +13,8 @@
 		"port": 25,
 		"ssl": false,
 		"from": "jjkon@seznam.cz"
+	},
+	"storage": {
+		"path": "./files/"
 	}
 }
